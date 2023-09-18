@@ -1,0 +1,47 @@
+ <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-900">
+        <div class="flex justify-center">
+            <a href="/">
+                <span class="self-center text-4xl font-semibold whitespace-nowrap text-red-600">ATESFLIX</span>
+            </a>
+        </div>
+       <ul class="space-y-2 font-medium mt-24">
+        <li>
+            <a href="/" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <span class="ml-3">All Films</span>
+            </a>
+         </li>
+         <% categories.forEach(category => { %>
+            <li>
+               <a href="/categories/<%= category.id %>" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-700 group <%= selectedCategory == category.id ? 'bg-red-600' : "" %>">
+                  <span class="ml-3"><%= category.name %></span>
+               </a>
+            </li>
+         <% }) %>
+       </ul>
+    </div>
+ </aside>
+ 
+ <div class="p-4 sm:ml-64">
+    <div id="films" class="flex flex-wrap gap-4 justify-center">
+      <% movies.forEach(movie => { %>
+         <div class="max-w-sm border p-4 rounded-lg shadow bg-gray-800 border-gray-700">
+            <a href="#">
+                <img class="rounded-t-lg" src="" alt="" />
+            </a>
+            <div class="p-5">
+                <a href="/films/<%= movie.id %>">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= movie.title %></h5>
+                </a>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><%= movie.description.slice(0,200) + "..." %></p>
+                <a href="/films/<%= movie.id %>" class="inline-flex items-center px-3 py-2 mb-2text-sm font-medium text-center float-right text-white rounded-lg bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">
+                    Read more
+                     <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                </a>
+            </div>
+        </div>      
+      <% }) %>
+    </div>
+ </div>

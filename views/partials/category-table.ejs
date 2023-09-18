@@ -1,0 +1,33 @@
+<div class="relative overflow-x-auto shadow-md rounded-2xl">
+    <table class="w-full text-sm  text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Edit
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            <% categories.forEach(category => { %>
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                    <th class="px-6 py-4">
+                        <%= category.id %>
+                    </th>
+                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <%= category.name %>
+                    </td>
+                    <td class="px-6 py-4">
+                        <a href="/admin/category/<%= category.id%>" class="bg-gray-400 p-2 text-white rounded-lg hover:bg-gray-500" href="">Edit</a>
+                        <a href="/admin/category/delete/<%= category.id %>" class="bg-red-600 p-2 rounded-lg text-white hover:bg-red-800" href="">Delete</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
