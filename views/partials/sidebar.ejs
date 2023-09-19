@@ -1,33 +1,39 @@
- <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-900">
-        <div class="flex justify-center">
-            <a href="/">
-                <span class="self-center text-4xl font-semibold whitespace-nowrap text-red-600">ATESFLIX</span>
-            </a>
-        </div>
-       <ul class="space-y-2 font-medium mt-24">
-        <li>
-            <a href="/" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <span class="ml-3">All Films</span>
-            </a>
+<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform transform -translate-x-full sm:translate-x-0 bg-gray-900">
+   <div class="h-full px-3 py-4 overflow-y-auto">
+     <div class="flex justify-center">
+       <a href="/">
+         <span class="self-center text-4xl font-semibold whitespace-nowrap text-red-600">ATESFLIX</span>
+       </a>
+     </div>
+     <ul class="space-y-2 font-medium mt-12">
+       <li>
+         <a href="/" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+           <span class="ml-3">All Films</span>
+         </a>
+       </li>
+       <% categories.forEach(category => { %>
+         <li>
+           <a href="/categories/<%= category.id %>" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-700 group <%= selectedCategory == category.id ? 'bg-red-600' : "" %>">
+             <span class="ml-3"><%= category.name %></span>
+           </a>
          </li>
-         <% categories.forEach(category => { %>
-            <li>
-               <a href="/categories/<%= category.id %>" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-700 group <%= selectedCategory == category.id ? 'bg-red-600' : "" %>">
-                  <span class="ml-3"><%= category.name %></span>
-               </a>
-            </li>
-         <% }) %>
-       </ul>
-    </div>
+       <% }) %>
+     </ul>
+   </div>
  </aside>
- 
- <div class="p-4 sm:ml-64">
-    <div id="films" class="flex flex-wrap gap-4 justify-center">
+ <div id="contents" class="p-4 sm:ml-64">
+   <div id="carousel" class="mx-auto w-full max-w-screen-2xl">
+     <% movies.forEach(movie => { %>
+       <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
+         <img src="/img/<%= movie.image %>" alt="<%= movie.name %> img" class="w-full h-64 object-cover">
+       </div>
+     <% }) %>
+   </div>
+   <div id="films" class="flex flex-wrap gap-4 justify-center">
       <% movies.forEach(movie => { %>
          <div class="max-w-sm border p-4 rounded-lg shadow bg-gray-800 border-gray-700">
             <a href="#">
-                <img class="rounded-t-lg" src="" alt="" />
+               <img class="object-cover" src="/img/<%= movie.image %>" alt="<%= movie.name %> img">
             </a>
             <div class="p-5">
                 <a href="/films/<%= movie.id %>">
@@ -43,5 +49,17 @@
             </div>
         </div>      
       <% }) %>
-    </div>
+   </div>
  </div>
+
+<% // Slick Carousel %>
+<script>
+   $('#carousel').slick({
+     slidesToShow: 1,
+     slidesToScroll: 1,
+     autoplay: true, 
+     autoplaySpeed: 3000, 
+     dots: true, 
+     arrows: true,
+   });
+ </script>

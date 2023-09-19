@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+
+# Dependency directories
+logs/
+temp/
+build/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/

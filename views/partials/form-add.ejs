@@ -1,6 +1,6 @@
 <div class="mt-16">
     <h1 class="text-center text-2xl font-bold mb-4">Create a Film</h1>
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
         <div class="mb-6">
           <label for="title" class="block mb-2 text-lg font-medium text-gray-900">Title</label>
           <input type="text" id="title" name="title" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500" required placeholder="Enter a title">
@@ -19,7 +19,7 @@
         </div>
         <div class="mb-6">
           <label for="image" class="block mb-2 text-lg font-medium text-gray-900">Image</label>
-          <input type="text" id="image" name="image" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500" required placeholder="Enter an image URL">
+          <input type="file" id="image" name="image" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500" required placeholder="Enter an image URL">
         </div>
         <div class="mb-6">
           <label for="category_id" class="block mb-2 text-lg font-medium text-gray-900">Category</label>

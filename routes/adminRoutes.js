@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../data/db");
+const fs = require("fs");
+const imageUpload = require("../helpers/image-upload");
 
 //MOVIE CREATE,EDIT,DELETE
 
@@ -18,12 +20,12 @@ router.get("/admin/movie/create", async function(req,res){
     }
 });
 
-router.post("/admin/movie/create", async function(req, res){
+router.post("/admin/movie/create", imageUpload.upload.single("image"), async function(req, res){
     const title = req.body.title;
     const description = req.body.description;
     const is_home = req.body.is_home == "on" ? 1:0;
     const is_active = req.body.is_active == "on" ? 1:0;
-    const image = req.body.image;
+    const image = req.file.filename;
     const category_id = req.body.category_id       
     try{
         await db.execute("INSERT INTO movies(title,description,is_home,is_active,image,category_id) VALUES(?,?,?,?,?,?)",[title,description,is_home,is_active,image,category_id]);
@@ -52,14 +54,21 @@ router.get("/admin/movie/:movieid", async function(req,res){
     }
 });
 
-router.post("/admin/movie/:movieid", async function (req, res) {
+router.post("/admin/movie/:movieid", imageUpload.upload.single("image"), async function (req, res) {
     const id = req.body.movieid;
     const title = req.body.title;
     const description = req.body.description;
-    const is_home = req.body.is_home == "on" ? 1 : 0;
-    const is_active = req.body.is_active == "on" ? 1 : 0;
-    const image = req.body.image;
+    const is_home = req.body.is_home == "true" ? 1 : 0;
+    const is_active = req.body.is_active == "true" ? 1 : 0;
+    let image = req.body.image;
+    if(req.file){
+        image = req.file.filename;
+        fs.unlink("/img/" + req.body.image, err=>{
+            console.log(err);
+        })
+    }
     const category_id = req.body.category_id;
+    console.log(req.body);
     try {
         await db.execute(
             "UPDATE movies SET title=?, description=?, is_home=?, is_active=?, image=?, category_id=? WHERE id=?",
@@ -70,7 +79,6 @@ router.post("/admin/movie/:movieid", async function (req, res) {
         console.log(err);
     }
 });
-
 // Movie Edit End
 
 // Movie Delete Start

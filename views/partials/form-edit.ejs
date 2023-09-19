@@ -1,7 +1,7 @@
 <div class="mt-16">
   <h1 class="text-center text-2xl font-bold mb-4">Edit a Film</h1>
   <% movies.forEach(movie => { %>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       <input type="hidden" name="movieid" value="<%= movie.id %>">
       <div class="mb-6">
         <label for="title" class="block mb-2 text-lg font-medium text-gray-900">Title</label>
@@ -20,8 +20,10 @@
         <label for="is_active" class="ml-2 text-md font-medium text-black">Active</label>
       </div>
       <div class="mb-6">
+        <img src="/img/<%= movie.image %>" alt="<%= movie.name %> img">
         <label for="image" class="block mb-2 text-lg font-medium text-gray-900">Image</label>
-        <input type="text" id="image" name="image" value="<%= movie.image %>" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500" required placeholder="Enter an image URL">
+        <input type="hidden" value="<%= movie.image %>" name="image" id="">
+        <input type="file" id="image" name="image" value="<%= movie.image %>" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500" required>
       </div>
       <div class="mb-6">
         <label for="category_id" class="block mb-2 text-lg font-medium text-gray-900">Category</label>
