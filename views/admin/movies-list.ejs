@@ -4,8 +4,13 @@
 <body>
     <%- include("../partials/navbar.ejs") %>
     <h1 class="uppercase text-center mt-2 text-4xl font-semibold whitespace-nowrap text-red-600">Movie List</h1>
-    <div class="flex justify-center items-center sm:mb-4 sm:mt-4">
-        <%- include("../partials/movie-table.ejs") %>
+    <div class="flex justify-center">
+        <div class="flex flex-col justify-center items-center sm:mb-4 sm:mt-4">
+            <div id="addButton" class="mt-4 mb-8">
+                <a href="/admin/movie/create" target="_blank" class="p-4 bg-green-600 text-white rounded-lg">Add</a>
+            </div>
+            <%- include("../partials/movie-table.ejs") %>
+        </div>
     </div>
 </body>
 </html>

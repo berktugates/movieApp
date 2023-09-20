@@ -5,9 +5,9 @@
           <label for="title" class="block mb-2 text-lg font-medium text-gray-900">Title</label>
           <input type="text" id="title" name="title" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500" required placeholder="Enter a title">
         </div>
-        <div class="mb-6">   
+        <div class="mb-6 max-w-4xl">   
           <label for="description" class="block mb-2 text-lg font-medium text-gray-900">Description</label>
-          <textarea id="description" name="description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a description..."></textarea>
+          <textarea id="editor" name="description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a description..."></textarea>
         </div>
         <div class="flex items-center mb-6">
           <label for="is_home" class="ml-2 text-md font-medium text-black">Home</label>
@@ -36,6 +36,13 @@
       </form>
 </div>
 
-  
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+<script>
+  ClassicEditor
+      .create( document.querySelector( '#editor' ) )
+      .catch( error => {
+          console.error( error );
+      } );
+</script>
    
   

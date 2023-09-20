@@ -219,4 +219,13 @@ router.get("/admin/categories", async function(req,res){
     }
 })
 // Category List End
+
+router.get("/admin", async function(req,res){
+    try{
+        res.render("admin/index")
+    }
+    catch(err){
+
+    }
+})
 module.exports = router;
