@@ -24,6 +24,9 @@
                     Category ID
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Rayting
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Edit
                 </th>
             </tr>
@@ -51,6 +54,9 @@
                     </td>
                     <td class="px-6 py-4">
                         <%= movie.category_id %>
+                    </td>
+                    <td class="px-6 py-4">
+                        <%= movie.rayting %>
                     </td>
                     <td class="px-6 py-4">
                         <a class="bg-gray-400 p-2 text-white rounded-lg hover:bg-gray-500" href="/admin/movie/<%= movie.id %>">Edit</a>

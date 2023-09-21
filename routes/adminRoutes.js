@@ -26,9 +26,10 @@ router.post("/admin/movie/create", imageUpload.upload.single("image"), async fun
     const is_home = req.body.is_home == "on" ? 1:0;
     const is_active = req.body.is_active == "on" ? 1:0;
     const image = req.file.filename;
-    const category_id = req.body.category_id       
+    const category_id = req.body.category_id;
+    const rayting = req.body.rayting;     
     try{
-        await db.execute("INSERT INTO movies(title,description,is_home,is_active,image,category_id) VALUES(?,?,?,?,?,?)",[title,description,is_home,is_active,image,category_id]);
+        await db.execute("INSERT INTO movies(title,description,is_home,is_active,image,category_id,rayting) VALUES(?,?,?,?,?,?,?)",[title,description,is_home,is_active,image,category_id,rayting]);
         res.redirect("/admin/movies");
     }
     catch(err){
@@ -61,6 +62,7 @@ router.post("/admin/movie/:movieid", imageUpload.upload.single("image"), async f
     const is_home = req.body.is_home == "true" ? 1 : 0;
     const is_active = req.body.is_active == "true" ? 1 : 0;
     let image = req.body.image;
+    const rayting = req.body.rayting;
     if(req.file){
         image = req.file.filename;
         fs.unlink("/img/" + req.body.image, err=>{
@@ -68,11 +70,10 @@ router.post("/admin/movie/:movieid", imageUpload.upload.single("image"), async f
         })
     }
     const category_id = req.body.category_id;
-    console.log(req.body);
     try {
         await db.execute(
-            "UPDATE movies SET title=?, description=?, is_home=?, is_active=?, image=?, category_id=? WHERE id=?",
-            [title, description, is_home, is_active, image, category_id, id]
+            "UPDATE movies SET title=?, description=?, is_home=?, is_active=?, image=?, category_id=?, rayting=? WHERE id=?",
+            [title, description, is_home, is_active, image, category_id, rayting, id]
         );
         res.redirect("/admin/movies");
     } catch (err) {

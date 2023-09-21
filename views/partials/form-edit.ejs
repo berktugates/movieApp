@@ -23,7 +23,7 @@
         <img src="/img/<%= movie.image %>" alt="<%= movie.name %> img">
         <label for="image" class="block mb-2 text-lg font-medium text-gray-900">Image</label>
         <input type="hidden" value="<%= movie.image %>" name="image" id="">
-        <input type="file" id="image" name="image" value="<%= movie.image %>" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500" required>
+        <input type="file" id="image" name="image" value="<%= movie.image %>" class="w-96 border text-sm rounded-lg block p-2.5 bg-gray-50 border-gray-300 text-black focus:ring-blue-500 focus:border-blue-500">
       </div>
       <div class="mb-6">
         <label for="category_id" class="block mb-2 text-lg font-medium text-gray-900">Category</label>
@@ -33,6 +33,10 @@
             <option value="<%= category.id %>" <% if (movie.category_id === category.id) { %>selected<% } %>><%= category.name %></option>
           <% }) %>
         </select>        
+      </div>
+      <div class="mb-6">
+        <label for="rayting" class="block mb-2 text-lg font-medium text-gray-900">Rayting</label>
+        <input value="<%= movie.rayting %>" style="border: 2px solid #F9FAFB;" type="number" id="rayting" name="rayting" min="1" max="5">
       </div>
       <div class="mb-6 flex justify-center">           
         <button type="submit" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-white focus:outline-none bg-gray-600 rounded-lg border border-gray-200 hover:bg-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-200">Add</button>
