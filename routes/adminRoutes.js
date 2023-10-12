@@ -1,232 +1,56 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../data/db");
 const fs = require("fs");
 const imageUpload = require("../helpers/image-upload");
-
+const adminController = require("../controllers/adminController");
 //MOVIE CREATE,EDIT,DELETE
 
 // Movie Create Start
-router.get("/admin/movie/create", async function(req,res){
-    try{
-        const [categories, ] = await db.execute("SELECT * FROM categories");
-        res.render("admin/create-movie",{
-            title : "Add Film",
-            categories : categories
-        })
-    }
-    catch(err){
-        console.log(err)
-    }
-});
+router.get("/admin/movie/create", adminController.createMovieGet);
 
-router.post("/admin/movie/create", imageUpload.upload.single("image"), async function(req, res){
-    const title = req.body.title;
-    const description = req.body.description;
-    const is_home = req.body.is_home == "on" ? 1:0;
-    const is_active = req.body.is_active == "on" ? 1:0;
-    const image = req.file.filename;
-    const category_id = req.body.category_id;
-    const rayting = req.body.rayting;     
-    try{
-        await db.execute("INSERT INTO movies(title,description,is_home,is_active,image,category_id,rayting) VALUES(?,?,?,?,?,?,?)",[title,description,is_home,is_active,image,category_id,rayting]);
-        res.redirect("/admin/movies");
-    }
-    catch(err){
-        console.log(err);
-    }
-});
+router.post("/admin/movie/create", imageUpload.upload.single("image"),adminController.createMoviePost);
 // Movie Create End
 
 // Movie Edit Start
-router.get("/admin/movie/:movieid", async function(req,res){
-    const id = req.params.movieid;
-    try{
-        const [movies,] = await db.execute("SELECT * FROM movies WHERE id=?",[id]);
-        const [categories,] = await db.execute("SELECT * FROM categories");
-        res.render("admin/edit-movie",{
-            title : "Edit Film",
-            movies : movies,
-            categories : categories
-        })
-    }
-    catch(err){
-        console.log(err);
-    }
-});
+router.get("/admin/movie/:movieid", adminController.editMovieGet);
 
-router.post("/admin/movie/:movieid", imageUpload.upload.single("image"), async function (req, res) {
-    const id = req.body.movieid;
-    const title = req.body.title;
-    const description = req.body.description;
-    const is_home = req.body.is_home == "true" ? 1 : 0;
-    const is_active = req.body.is_active == "true" ? 1 : 0;
-    let image = req.body.image;
-    const rayting = req.body.rayting;
-    if(req.file){
-        image = req.file.filename;
-        fs.unlink("/img/" + req.body.image, err=>{
-            console.log(err);
-        })
-    }
-    const category_id = req.body.category_id;
-    try {
-        await db.execute(
-            "UPDATE movies SET title=?, description=?, is_home=?, is_active=?, image=?, category_id=?, rayting=? WHERE id=?",
-            [title, description, is_home, is_active, image, category_id, rayting, id]
-        );
-        res.redirect("/admin/movies");
-    } catch (err) {
-        console.log(err);
-    }
-});
+router.post("/admin/movie/:movieid", imageUpload.upload.single("image"), adminController.editMoviePost);
 // Movie Edit End
 
 // Movie Delete Start
-router.get("/admin/movie/delete/:movieid", async function(req, res){
-    const id = req.params.movieid;
-    try{
-        const [movies,] = await db.execute("SELECT * FROM movies WHERE id=?", [id]);
-        const movie = movies[0];
-        res.render("admin/delete-movie",{
-            title:"Delete Movie",
-            movie : movie
-        });
-    }
-    catch(err){
-        console.log(err);
-    }
-});
+router.get("/admin/movie/delete/:movieid", adminController.deleteMovieGet);
 
-router.post("/admin/movie/delete/:movieid", async function(req, res){
-    const id = req.params.movieid;
-    try{
-        await db.execute("DELETE FROM movies WHERE id=?", [id]);
-        res.redirect("/admin/movies");
-    }
-    catch(err){
-        console.log(err);
-    }
-})
+router.post("/admin/movie/delete/:movieid", adminController.deleteMoviePost)
 // Movie Delete End
 
 // Movies List
-router.get("/admin/movies", async function(req,res){
-    try{
-        const [movies, ] =  await db.execute("SELECT * FROM movies");
-        res.render("admin/movies-list",{
-            title:"Movies List",
-            movies : movies
-        });
-    }
-    catch(err){
-        console.log(err);
-    }
-});
+router.get("/admin/movies", adminController.movieListGet);
 
 //####################################################################################
 
 // CATEGORY CREATE,EDIT,DELETE
 
 // Create Category Start
-router.get("/admin/category/create", async function(req,res){
-    try{
-        res.render("admin/create-category")
-    }
-    catch(err){
-        console.log(err)
-    }
-});
+router.get("/admin/category/create", adminController.createCategoryGet);
 
-router.post("/admin/category/create", async function(req,res){
-    const name = req.body.name;
-    try{
-        await db.execute("INSERT INTO categories(name) VALUES(?)",[name]);
-        res.redirect("/admin/categories")
-    }
-    catch(err){
-        console.log(err);
-    }
-});
+router.post("/admin/category/create", adminController.createCategoryPost);
 // Create Category End
 
 // Edit Category Start
-router.get("/admin/category/:category_id", async function(req,res){
-    const id = req.params.category_id;
-    try{
-        const[categories,] = await db.execute("SELECT * FROM categories WHERE id=?",[id]);
-        const category = categories[0];
-        res.render("admin/edit-category",{
-            category : category
-        });
-    }
-    catch(err){
-        console.log(err);
-    }
-});
+router.get("/admin/category/:category_id", adminController.editCategoryGet);
 
-router.post("/admin/category/:category_id", async function(req,res){
-    const id = req.params.category_id;
-    const name = req.body.name;
-    console.log(req.body);
-    try{
-        await db.execute("UPDATE categories SET name=? WHERE id=?",[name,id]);
-        res.redirect("/admin/categories");
-    }
-    catch(err){
-        console.log(err);
-    }
-});
+router.post("/admin/category/:category_id", adminController.editCategoryPost);
 // Edit Category End
 
 // Delete Category Start
-router.get("/admin/category/delete/:category_id",async function(req,res){
-    const id = req.params.category_id;
-    try{
-        const category = await db.execute("SELECT * FROM categories WHERE id=?", [id])
-        res.render("admin/delete-category",{
-            title: "Delete Category",
-            category : category
-        })
-    }
-    catch(err){
-        console.log(err);
-    }
-})
+router.get("/admin/category/delete/:category_id", adminController.deleteCategoryGet);
 
-router.post("/admin/category/delete/:category_id", async function(req,res){
-    const id = req.params.category_id;
-    try{
-        await db.execute("DELETE FROM categories WHERE id=?",[id]);
-        res.redirect("/admin/categories")
-    }
-    catch(err){
-        console.log(err);
-    }
-})
+router.post("/admin/category/delete/:category_id", adminController.deleteCategoryPost);
 // Delete Category End
 
 // Category List Start
-router.get("/admin/categories", async function(req,res){
-    try{
-        const [categories,] = await db.execute("SELECT * FROM  categories");
-        res.render("admin/categories-list",{
-            title: "Category List",
-            categories : categories
-        })
-    }
-    catch(err){
-        console.log(err);
-    }
-})
+router.get("/admin/categories", adminController.categoryListGet);
 // Category List End
 
-router.get("/admin", async function(req,res){
-    try{
-        res.render("admin/index")
-    }
-    catch(err){
-
-    }
-})
+router.get("/admin", adminController.admin);
 module.exports = router;
